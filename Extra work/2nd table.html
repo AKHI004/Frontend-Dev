@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Company Dashboard — Exact Table</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1620; --panel:#0f2130; --header:#08121a; --muted:#91a6b8; --text:#e9f6ff;
+    --logo-bg:#05272f; --table-border: rgba(255,255,255,0.04);
+    --chip-approved-start:#46d38f; --chip-approved-end:#10b981;
+    --chip-await-start:#ffd46a; --chip-await-end:#f59e0b;
+    --chip-nostart:#cbd5e1;
+    --chip-rejected-start:#ff9aa3; --chip-rejected-end:#ef4444;
+    --chip-processing-start:#7ee8ea; --chip-processing-end:#06b6d4;
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#071221);font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:var(--text);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1100px;margin:48px auto;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));box-shadow:0 12px 50px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02)}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  header h1{font-size:18px;margin:0;color:var(--text);font-weight:700}
+  header p{margin:0;color:var(--muted);font-size:13px}
+
+  .table-container{overflow:auto;border:1px solid var(--table-border);border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+  table{width:100%;border-collapse:collapse;min-width:960px}
+  thead th{position:sticky;top:0;background:linear-gradient(180deg,var(--header), rgba(6,14,20,0.96));padding:14px 12px;text-align:left;font-weight:600;font-size:13px;color:#cfefff;border-bottom:1px solid var(--table-border)}
+  tbody td{padding:14px 12px;border-bottom:1px solid var(--table-border);vertical-align:middle;color:var(--text);font-size:14px}
+
+  .company{display:flex;align-items:center;gap:12px}
+  .logo{width:44px;height:44px;border-radius:8px;flex:0 0 44px;background:linear-gradient(180deg,var(--logo-bg),#0a3035);display:inline-flex;align-items:center;justify-content:center;color:#cfefff;font-weight:800;font-size:14px;border:1px solid rgba(255,255,255,0.02)}
+  .cname{font-weight:700;color:var(--text)}
+  .cmeta{font-size:13px;color:var(--muted);margin-top:4px}
+
+  .chip{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px;color:#041217;border:1px solid rgba(0,0,0,0.06)}
+  .approved{background:linear-gradient(90deg,var(--chip-approved-start),var(--chip-approved-end));color:#05221a}
+  .awaiting{background:linear-gradient(90deg,var(--chip-await-start),var(--chip-await-end));color:#2b1a00}
+  .nostatus{background:linear-gradient(90deg,var(--chip-nostart),#94a3b8);color:#071019}
+  .rejected{background:linear-gradient(90deg,var(--chip-rejected-start),var(--chip-rejected-end));color:#fff}
+  .processing{background:linear-gradient(90deg,var(--chip-processing-start),var(--chip-processing-end));color:#032027}
+
+  .contact{display:flex;flex-direction:column}
+  .contact .name{font-weight:600;color:var(--text)}
+  .contact .role{font-size:13px;color:var(--muted);margin-top:4px}
+
+  .billing{font-weight:700;color:var(--text)}
+
+  .edit{opacity:0.95;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);background:transparent;cursor:pointer}
+  .edit svg{width:16px;height:16px;fill:#a6d8ff}
+
+  @media (max-width:920px){
+    .logo{width:38px;height:38px}
+    thead th{font-size:12px;padding:12px}
+    tbody td{padding:10px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" role="region" aria-label="Companies table">
+  <header>
+    <div>
+      <h1>Companies</h1>
+      <p>Overview of company status, contacts, and billing</p>
+    </div>
+    <div style="color:var(--muted);font-size:13px">Updated: <strong style="color:#cfefff">Today</strong></div>
+  </header>
+
+  <div class="table-container" role="table" aria-label="Company list">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Emp. size</th>
+          <th>Location</th>
+          <th>Contact</th>
+          <th>Billing</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Row 1 -->
+        <tr>
+          <td>
+            <div class="company">
+              <div class="logo" aria-hidden="true">PZ</div>
+              <div>
+                <div class="cname">Pexus Labs</div>
+                <div class="cmeta">SaaS platform</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="chip approved" title="Approved">Approved</span></td>
+          <td>May 11</td>
+          <td>1–10</td>
+          <td>Sunnyvale</td>
+          <td>
+            <div class="contact">
+              <div class="name">Ronald Kepler</div>
+              <div class="role">Product Owner</div>
+            </div>
+          </td>
+          <td class="billing">$20,863</td>
+          <td><button class="edit" aria-label="Edit Pexus Labs"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg></button></td>
+        </tr>
+
+        <!-- Row 2 -->
+        <tr>
+          <td>
+            <div class="company">
+              <div class="logo" aria-hidden="true">AZ</div>
+              <div>
+                <div class="cname">Azeron Tech</div>
+                <div class="cmeta">Cloud infra</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="chip awaiting" title="Awaiting approval">Awaiting approval</span></td>
+          <td>Apr 30</td>
+          <td>201–500</td>
+          <td>Silicon Valley</td>
+          <td>
+            <div class="contact">
+              <div class="name">Michelle Penisbora</div>
+              <div class="role">CTO</div>
+            </div>
+          </td>
+          <td class="billing">$5,843</td>
+          <td><button class="edit" aria-label="Edit Azeron Tech"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg></button></td>
+        </tr>
+
+        <!-- Row 3 -->
+        <tr>
+          <td>
+            <div class="company">
+              <div class="logo" aria-hidden="true">SF</div>
+              <div>
+                <div class="cname">SaltFront</div>
+                <div class="cmeta">Payment gateway</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="chip nostatus" title="No status">No status</span></td>
+          <td>May 02</td>
+          <td>51–200</td>
+          <td>San Francisco</td>
+          <td>
+            <div class="contact">
+              <div class="name">Tina Marshall</div>
+              <div class="role">Finance Lead</div>
+            </div>
+          </td>
+          <td class="billing">$2,140</td>
+          <td><button class="edit" aria-label="Edit SaltFront"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg></button></td>
+        </tr>
+
+        <!-- Row 4 -->
+        <tr>
+          <td>
+            <div class="company">
+              <div class="logo" aria-hidden="true">KR</div>
+              <div>
+                <div class="cname">KoreRise</div>
+                <div class="cmeta">Analytics</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="chip rejected" title="Rejected">Rejected</span></td>
+          <td>Apr 16</td>
+          <td>11–50</td>
+          <td>San Jose</td>
+          <td>
+            <div class="contact">
+              <div class="name">Diego Marlow</div>
+              <div class="role">Head Data</div>
+            </div>
+          </td>
+          <td class="billing">$0</td>
+          <td><button class="edit" aria-label="Edit KoreRise"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg></button></td>
+        </tr>
+
+        <!-- Row 5 -->
+        <tr>
+          <td>
+            <div class="company">
+              <div class="logo" aria-hidden="true">BN</div>
+              <div>
+                <div class="cname">BorealNet</div>
+                <div class="cmeta">Edge compute</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="chip processing" title="Processing">Processing</span></td>
+          <td>May 08</td>
+          <td>201–500</td>
+          <td>Mountain View</td>
+          <td>
+            <div class="contact">
+              <div class="name">Ava G. Simmons</div>
+              <div class="role">Operations</div>
+            </div>
+          </td>
+          <td class="billing">$5,843</td>
+          <td><button class="edit" aria-label="Edit BorealNet"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg></button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

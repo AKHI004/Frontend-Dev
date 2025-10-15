@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Table — centered data with integrated checkboxes</title>
+<style>
+  :root{
+    --blue:#0b66ff;
+    --muted:#eef6ff;
+    --border:#d6e6ff;
+  }
+
+  html,body{height:100%;margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#f7fbff;color:#042033;padding:24px}
+  .table-wrap{max-width:960px;margin:0 auto;overflow:auto}
+
+  table{width:100%;border-collapse:collapse;table-layout:auto;min-width:560px}
+  thead th{
+    background:var(--blue);
+    color:#fff;
+    padding:12px 14px;
+    text-align:left;
+    font-weight:700;
+    border:1px solid rgba(255,255,255,0.06);
+  }
+
+  /* First column: checkbox + row label in same cell */
+  tbody th{
+    background:var(--muted);
+    color:var(--blue);
+    padding:10px 12px;
+    text-align:left;
+    font-weight:700;
+    border-right:1px solid var(--border);
+    white-space:nowrap;
+  }
+
+  /* Cells: center horizontally and vertically */
+  td{
+    padding:12px;
+    border-bottom:1px solid var(--border);
+    border-right:1px solid var(--border);
+    text-align:center;        /* horizontal center */
+    vertical-align:middle;   /* vertical center */
+  }
+
+  /* Row header cell contains inline checkbox + label so they appear joined */
+  .row-with-checkbox{
+    display:inline-flex;
+    gap:10px;
+    align-items:center;
+  }
+
+  .row-with-checkbox input[type="checkbox"]{
+    width:18px;
+    height:18px;
+    flex:0 0 18px;
+    margin:0;
+    accent-color:var(--blue);
+  }
+
+  /* Make the first column visually unified with the row */
+  tbody tr > th,
+  tbody tr > th + td { /* keep borders aligned */
+    border-bottom:1px solid var(--border);
+  }
+
+  /* Remove extra header cell placeholder — use Row/Col header */
+  thead th:first-child{width:1%}
+
+  /* Final row bottom border cleanup */
+  tr:last-child td{border-bottom:0}
+  tr:last-child th{border-bottom:0}
+
+  @media (max-width:640px){
+    thead th, td, tbody th{padding:8px}
+    .table-wrap{padding:8px}
+    table{min-width:420px}
+  }
+</style>
+</head>
+<body>
+
+<div class="table-wrap" aria-label="Table with integrated checkboxes and centered data">
+  <table role="table" aria-label="Centered data table with integrated checkboxes">
+    <thead>
+      <tr>
+        <th>Row/Col</th>
+        <th>Column</th>
+        <th>Column</th>
+        <th>Column</th>
+        <th>Column</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>
+          <label class="row-with-checkbox">
+            <input type="checkbox" aria-label="Select row 1">
+            Row
+          </label>
+        </th>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+      </tr>
+
+      <tr>
+        <th>
+          <label class="row-with-checkbox">
+            <input type="checkbox" aria-label="Select row 2">
+            Row
+          </label>
+        </th>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+      </tr>
+
+      <tr>
+        <th>
+          <label class="row-with-checkbox">
+            <input type="checkbox" aria-label="Select row 3">
+            Row
+          </label>
+        </th>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+      </tr>
+
+      <tr>
+        <th>
+          <label class="row-with-checkbox">
+            <input type="checkbox" aria-label="Select row 4">
+            Row
+          </label>
+        </th>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+      </tr>
+
+      <tr>
+        <th>
+          <label class="row-with-checkbox">
+            <input type="checkbox" aria-label="Select row 5">
+            Row
+          </label>
+        </th>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+        <td>Data</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

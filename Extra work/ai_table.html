@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dragon Spitting Table</title>
+<style>
+  :root{
+    --bg1:#050611; --bg2:#071427; --scale1:#0b2a3a; --glow:#ff8a2b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:linear-gradient(180deg,var(--bg1),var(--bg2));font-family:system-ui,Segoe UI,Roboto,Arial;color:#eaf6ff}
+  .stage{min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:28px;position:relative}
+  .scene{width:960px;max-width:96vw;position:relative;height:520px}
+  /* dragon container */
+  .dragon{
+    position:absolute;left:40px;top:70px;width:420px;height:320px;pointer-events:auto;z-index:40;
+    transform-origin:right center;filter:drop-shadow(0 28px 48px rgba(0,0,0,0.7));
+  }
+  /* stylized dragon using SVG for recognizability */
+  .dragon svg{width:100%;height:100%;display:block}
+  /* mouth anchor used for spit placement */
+  .mouth-anchor{position:absolute;width:1px;height:1px;pointer-events:none;z-index:45}
+
+  /* table spit visual */
+  .spit{position:absolute;pointer-events:none;z-index:80;will-change:transform,opacity}
+  .spit table{border-collapse:collapse;border-radius:10px;overflow:hidden;min-width:340px;background:linear-gradient(180deg,#1c2b37,#07121a);border:1px solid rgba(255,255,255,0.04);box-shadow:0 18px 40px rgba(0,0,0,0.6);color:#e6f7ff}
+  .spit thead th{background:linear-gradient(90deg,#ffb86b,#ff6a1a);color:#08060a;padding:10px 12px;font-weight:800}
+  .spit td,.spit th{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.02);font-weight:600}
+
+  /* animated fire aura behind spit */
+  .aura{position:absolute;inset:-26px;border-radius:12px;mix-blend-mode:screen;filter:blur(8px)}
+  .aura .f1{position:absolute;inset:0;background:radial-gradient(circle at 20% 40%, rgba(255,240,180,0.45), rgba(255,120,40,0.18) 30%, transparent 60%);opacity:0.95}
+  .aura .f2{position:absolute;inset:12px;background:radial-gradient(circle at 30% 30%, rgba(255,200,100,0.6), rgba(255,90,30,0.12) 40%, transparent 65%);opacity:0.85}
+
+  /* spit flight keyframes */
+  @keyframes spit-forward {
+    0%   { transform: translate(0px,0px) rotate(0deg) scale(1); opacity:1; filter:blur(0px) }
+    70%  { transform: translate(520px,-120px) rotate(6deg) scale(0.78); opacity:0.92; filter:blur(0.6px) }
+    100% { transform: translate(840px,-200px) rotate(10deg) scale(0.55); opacity:0; filter:blur(2px) }
+  }
+
+  /* ember canvas */
+  canvas.embers{position:absolute;inset:0;pointer-events:none;z-index:70}
+
+  /* controls */
+  .ui{position:absolute;right:18px;bottom:18px;display:flex;gap:8px;z-index:120}
+  .ui button{background:linear-gradient(180deg,#08202b,#04121b);color:#e8fbff;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;font-weight:700}
+  .ui button:active{transform:translateY(1px)}
+  .tip{position:absolute;left:18px;bottom:18px;color:#cfefff;font-size:13px;z-index:120}
+
+  @media (max-width:920px){
+    .spit table{min-width:260px}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="scene" id="scene">
+    <div class="dragon" id="dragon" title="Click head or press F to spit table">
+      <!-- SVG dragon: snout, teeth, horns, eye, wing silhouette -->
+      <svg viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="scale" x1="0" x2="1">
+            <stop offset="0" stop-color="#133140"/>
+            <stop offset="1" stop-color="#07121a"/>
+          </linearGradient>
+          <linearGradient id="wingg" x1="0" x2="1">
+            <stop offset="0" stop-color="#004f78" stop-opacity="0.12"/>
+            <stop offset="1" stop-color="#00c2ff" stop-opacity="0.04"/>
+          </linearGradient>
+          <radialGradient id="eyeG" cx="30%" cy="35%">
+            <stop offset="0" stop-color="#fff8d0"/>
+            <stop offset="0.45" stop-color="#ffcf6b"/>
+            <stop offset="1" stop-color="#ff5a1a"/>
+          </radialGradient>
+        </defs>
+
+        <!-- body -->
+        <g transform="translate(0,60)">
+          <path d="M220 420 C120 320 80 240 120 160 C180 60 320 40 440 62 C560 86 700 140 740 220 C780 310 720 380 620 420 C520 460 340 500 220 420Z" fill="url(#scale)" stroke="rgba(255,255,255,0.02)" stroke-width="2"/>
+
+          <!-- wing -->
+          <path d="M500 130 C360 10 200 40 80 120 C20 160 10 200 40 260 C110 320 260 320 420 300 C520 286 620 200 500 130Z" fill="url(#wingg)" opacity="0.95"/>
+
+          <!-- neck to head -->
+          <path d="M120 170 C60 140 20 120 0 80 C-6 56 12 30 54 36 C90 42 160 70 210 94 C240 108 260 118 294 118" fill="none" stroke="#07121a" stroke-width="6"/>
+
+          <!-- head / snout solid -->
+          <path id="head-shape" d="M294 118 C342 122 408 116 464 130 C512 142 556 174 588 214 C612 244 620 280 598 300 C576 322 536 328 498 320 C470 314 444 298 420 286 C404 278 388 264 372 250 C360 240 352 230 348 218 C344 208 332 160 294 118Z" fill="#122c38" stroke="rgba(255,255,255,0.03)" stroke-width="2"/>
+
+          <!-- snout tip (mouth) and teeth -->
+          <path d="M588 214 C602 210 618 216 628 228 C636 238 642 255 634 266 C624 279 602 288 576 292" fill="#0b1a22" />
+          <g id="teeth" transform="translate(560,230)">
+            <path d="M0 6 L8 -6 L16 6 Z" fill="#fff9e6"/>
+            <path d="M18 6 L26 -6 L34 6 Z" fill="#fff9e6"/>
+          </g>
+
+          <!-- eye -->
+          <circle cx="460" cy="170" r="14" fill="url(#eyeG)" stroke="rgba(0,0,0,0.35)" stroke-width="2" />
+          <circle cx="458" cy="169" r="5" fill="#2b2b2b" />
+
+          <!-- horn -->
+          <path d="M380 94 C376 60 420 30 444 56 C468 82 436 114 416 98 Z" fill="#ffd86b" transform="translate(6,2) rotate(-12 420 80)"/>
+
+          <!-- nostril (visual) -->
+          <ellipse cx="560" cy="206" rx="6" ry="4" fill="#07121a" />
+
+          <!-- mouth anchor small for JS placement -->
+          <circle id="mouthAnchor" cx="626" cy="244" r="4" fill="#ff8a2b" opacity="0" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="mouth-anchor" id="mouthAnchorEl" aria-hidden="true"></div>
+
+    <canvas class="embers" id="embers"></canvas>
+
+    <!-- hidden table template to clone -->
+    <div id="tableTemplate" style="display:none">
+      <table>
+        <thead><tr><th>Row/Col</th><th>Column</th><th>Column</th><th>Column</th><th>Column</th></tr></thead>
+        <tbody>
+          <tr><th>Row</th><td>Data</td><td>Data</td><td>Data</td><td>Data</td></tr>
+          <tr><th>Row</th><td>Data</td><td>Data</td><td>Data</td><td>Data</td></tr>
+          <tr><th>Row</th><td>Data</td><td>Data</td><td>Data</td><td>Data</td></tr>
+          <tr><th>Row</th><td>Data</td><td>Data</td><td>Data</td><td>Data</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ui" role="toolbar" aria-label="controls">
+      <button id="btnSpit">Spit Table (F)</button>
+      <button id="btnToggle">Pause Dragon (Space)</button>
+    </div>
+
+    <div class="tip">Click dragon head to spit; press F to spit</div>
+  </div>
+</div>
+
+<script>
+/* Working dragon spit: clone table, place at mouth anchor, animate forward with aura and embers */
+const dragon = document.getElementById('dragon');
+const mouthAnchorSVG = document.getElementById('mouthAnchor');
+const mouthAnchorEl = document.getElementById('mouthAnchorEl');
+const scene = document.getElementById('scene');
+const template = document.getElementById('tableTemplate').querySelector('table');
+const embers = document.getElementById('embers');
+const ctx = embers.getContext('2d');
+const btnSpit = document.getElementById('btnSpit');
+const btnToggle = document.getElementById('btnToggle');
+
+let particles = [];
+let last = performance.now();
+let dragonPaused = false;
+let spitting = false;
+
+function resize() {
+  embers.width = scene.clientWidth;
+  embers.height = scene.clientHeight;
+  positionMouth();
+}
+window.addEventListener('resize', resize);
+resize();
+
+/* position an HTML element over the SVG mouth anchor */
+function positionMouth(){
+  const svgPt = mouthAnchorSVG.getBoundingClientRect();
+  const sceneRect = scene.getBoundingClientRect();
+  // mouthAnchorSVG coordinates within scene
+  mouthAnchorEl.style.left = (svgPt.left - sceneRect.left + svgPt.width/2) + 'px';
+  mouthAnchorEl.style.top = (svgPt.top - sceneRect.top + svgPt.height/2) + 'px';
+}
+
+/* particle functions */
+function emit(x,y,count=1,spread=18){
+  for(let i=0;i<count;i++){
+    particles.push({
+      x: x + (Math.random()-0.5)*spread,
+      y: y + (Math.random()-0.5)*8,
+      vx: (Math.random()*3 + 1.8) * (Math.random()<0.5 ? -1 : 1),
+      vy: (Math.random()-0.6)*0.8,
+      life: 700 + Math.random()*900,
+      age: 0,
+      r: 1 + Math.random()*2,
+      hue: 30 + Math.random()*30
+    });
+  }
+}
+
+function updateParticles(dt){
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
+    p.age += dt;
+    if(p.age > p.life){ particles.splice(i,1); continue; }
+    p.x += p.vx * dt/16;
+    p.y += p.vy * dt/16;
+    p.vy += 0.03 * dt/16;
+    p.vx *= 0.998;
+  }
+}
+
+function drawParticles(){
+  ctx.clearRect(0,0,embers.width, embers.height);
+  if(!particles.length) return;
+  ctx.globalCompositeOperation = 'lighter';
+  for(const p of particles){
+    const a = 1 - p.age / p.life;
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(255,${150 + (p.hue%40)},${40 + (p.hue%50)},${0.18 * a})`;
+    ctx.shadowBlur = 10 * a;
+    ctx.shadowColor = `rgba(255,${130 + (p.hue%50)},${40 + (p.hue%60)},${0.5 * a})`;
+    ctx.arc(p.x, p.y, p.r * (1 + 1.6*(1-a)), 0, Math.PI*2);
+    ctx.fill();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.shadowBlur = 0;
+}
+
+/* animation loop */
+function loop(now){
+  const dt = Math.min(40, now - last); last = now;
+  updateParticles(dt);
+  drawParticles();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* create spit element and animate */
+function createSpit(){
+  const sceneRect = scene.getBoundingClientRect();
+  const mouthRect = mouthAnchorSVG.getBoundingClientRect();
+
+  const clone = template.cloneNode(true);
+  const container = document.createElement('div');
+  container.className = 'spit';
+  // position relative to scene
+  const startLeft = mouthRect.left - sceneRect.left - (clone.offsetWidth || 170);
+  const startTop = mouthRect.top - sceneRect.top - 10;
+  container.style.left = startLeft + 'px';
+  container.style.top = startTop + 'px';
+  container.appendChild(clone);
+
+  // aura
+  const aura = document.createElement('div');
+  aura.className = 'aura';
+  aura.innerHTML = '<div class="f1"></div><div class="f2"></div>';
+  container.appendChild(aura);
+
+  scene.appendChild(container);
+
+  // ensure layout before animation
+  requestAnimationFrame(()=>{
+    // random duration and easing
+    const dur = 1000 + Math.random()*700;
+    container.style.animation = `spit-forward ${dur}ms cubic-bezier(.2,.9,.18,1) forwards`;
+    // spawn ember trail for duration
+    const birth = performance.now();
+    let raf;
+    function trailTick(){
+      const elapsed = performance.now() - birth;
+      const p = Math.min(1, elapsed / dur);
+      // compute approximate position along keyframe path
+      const curX = startLeft + 520 * p;
+      const curY = startTop - 120 * p;
+      // convert to canvas coordinates
+      for(let i=0;i<3;i++) emit(curX + (Math.random()-0.5)*30 + sceneRect.left, curY + (Math.random()-0.5)*18 + sceneRect.top, 1, 18);
+      if(p < 1) raf = requestAnimationFrame(trailTick);
+    }
+    trailTick();
+    // remove after finish
+    setTimeout(()=>{ container.remove(); if(raf) cancelAnimationFrame(raf); }, dur + 80);
+  });
+}
+
+/* spit wrapper with jaw animation and bursts */
+function spit(){
+  if(spitting) return;
+  spitting = true;
+  // jaw snap from SVG: scale small group for visual impact
+  const head = document.getElementById('head-shape');
+  if(head){
+    head.animate([{transform:'translateY(0)'},{transform:'translateY(-6px)'},{transform:'translateY(0)'}],{duration:160});
+  }
+  // emit initial ember burst from mouth coords
+  const mouthRect = mouthAnchorSVG.getBoundingClientRect();
+  const sceneRect = scene.getBoundingClientRect();
+  const mx = mouthRect.left - sceneRect.left + 6;
+  const my = mouthRect.top - sceneRect.top + 8;
+  for(let i=0;i<24;i++) setTimeout(()=> emit(sceneRect.left + mx + (Math.random()-0.5)*18, sceneRect.top + my + (Math.random()-0.5)*18, 1, 22), i*14);
+
+  // spit 1-3 tables
+  const shots = 1 + Math.floor(Math.random()*2);
+  for(let i=0;i<shots;i++){
+    setTimeout(()=> createSpit(), i*110);
+  }
+  // end spitting state
+  setTimeout(()=> spitting = false, 1400);
+}
+
+/* toggle dragon animation */
+function toggleDragon(){
+  dragonPaused = !dragonPaused;
+  dragon.style.animationPlayState = dragonPaused ? 'paused' : 'running';
+  btnToggle.textContent = dragonPaused ? 'Resume Dragon (Space)' : 'Pause Dragon (Space)';
+}
+
+/* events */
+btnSpit.addEventListener('click', spit);
+dragon.addEventListener('click', spit);
+btnToggle.addEventListener('click', toggleDragon);
+window.addEventListener('keydown', (e)=>{
+  if(e.key === 'f' || e.key === 'F') spit();
+  if(e.code === 'Space'){ e.preventDefault(); toggleDragon(); }
+});
+
+/* small idle motion */
+dragon.animate([{transform:'translateY(0)'},{transform:'translateY(-8px)'},{transform:'translateY(0)'}],{duration:4200,iterations:Infinity,easing:'ease-in-out'});
+
+/* initial positioning */
+positionMouth();
+setTimeout(positionMouth,300);
+</script>
+</body>
+</html>
