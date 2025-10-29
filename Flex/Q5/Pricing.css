@@ -1,0 +1,156 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f8f9fa;
+  color: #333;
+  text-align: center;
+  line-height: 1.6;
+  padding: 0 20px;
+}
+
+/* Header */
+header {
+  margin: 40px 0;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+header p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* Pricing Section Layout */
+.pricing-section {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 20px;
+  flex-wrap: wrap;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Pricing Card Base */
+.pricing-card {
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+
+.pricing-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.pricing-card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.pricing-card:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+/* Highlight the middle card */
+.pro {
+  background: #0077b6;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Hover Effect */
+.pricing-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Content */
+.pricing-card h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+}
+
+.price {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 15px 0;
+}
+
+.price span {
+  font-size: 1rem;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 20px 0;
+}
+
+ul li {
+  margin: 10px 0;
+}
+
+button {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #555;
+}
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Layout (below 750px) */
+@media (max-width: 750px) {
+  .pricing-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pricing-card {
+    max-width: 80%;
+  }
+
+  .pro {
+    transform: scale(1);
+  }
+}
+
+/* Footer */
+footer {
+  margin: 50px 0 20px;
+  font-size: 0.9rem;
+  color: #777;
+}

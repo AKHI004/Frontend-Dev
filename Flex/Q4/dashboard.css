@@ -1,0 +1,144 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f172a;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Dashboard Grid */
+.dashboard {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    grid-template-rows: 70px 1fr;
+    grid-gap: 20px;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    grid-column: 1 / -1;
+    background: #1e293b;
+    color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 1.8rem;
+}
+
+/* Sidebar */
+.sidebar {
+    grid-row: 2;
+    background: #1e293b;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar nav a:hover {
+    background: #334155;
+    color: white;
+}
+
+/* Main Content */
+.main-content {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+/* Boxes */
+.box {
+    background: #1e293b;
+    border-radius: 10px;
+    padding: 2rem;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.box h2 {
+    font-size: 1rem;
+    color: #94a3b8;
+    margin-bottom: 1rem;
+}
+
+.stat {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Wide box spans 2 columns */
+.box-wide {
+    grid-column: span 2;
+}
+
+/* Hover Effects */
+.box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive - Tablet */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 180px 1fr;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .box-wide {
+        grid-column: span 1;
+    }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+        height: auto;
+    }
+
+    .sidebar {
+        grid-row: auto;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .main-content {
+        grid-column: 1;
+    }
+}
