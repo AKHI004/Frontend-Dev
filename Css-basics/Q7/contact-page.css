@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 3em 1em 2em;
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.3em;
+}
+
+header p {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.contact-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3em 1em;
+}
+
+.contact-form {
+  background-color: #ffffff;
+  padding: 2.5em;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.5em;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+input, textarea {
+  padding: 0.9em;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  margin-bottom: 1.5em;
+  font-size: 1rem;
+  outline: none;
+  background-color: #f9fafb;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 6px rgba(14, 165, 233, 0.4);
+  background-color: #ffffff;
+}
+
+button {
+  background-color: #0ea5e9;
+  color: #ffffff;
+  border: none;
+  padding: 0.9em;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0284c7;
+}
+
+footer {
+  text-align: center;
+  padding: 1.5em;
+  background-color: #0f172a;
+  color: #f1f5f9;
+  font-size: 0.9rem;
+}

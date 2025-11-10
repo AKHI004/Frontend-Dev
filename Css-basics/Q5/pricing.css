@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 3em 1em;
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+header h1 {
+  font-size: 2.3rem;
+  margin-bottom: 0.3em;
+}
+
+header p {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.pricing-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2em;
+  padding: 4em 10%;
+  flex-wrap: wrap;
+}
+
+.plan {
+  background-color: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 280px;
+  max-width: 320px;
+  text-align: center;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan h2 {
+  font-size: 1.5rem;
+  color: #0f172a;
+  margin-bottom: 1em;
+}
+
+.plan ul {
+  list-style: none;
+  text-align: left;
+  margin: 0 auto 1.5em;
+  line-height: 1.8;
+  color: #475569;
+}
+
+.price {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1.5em;
+  color: #0ea5e9;
+}
+
+.plan a {
+  text-decoration: none;
+  background-color: #0ea5e9;
+  color: #ffffff;
+  padding: 0.8em 1.5em;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.plan a:hover {
+  background-color: #0284c7;
+}
+
+.plan:hover {
+  transform: scale(1.05);
+  background-color: #f0f9ff;
+  box-shadow: 0 8px 16px rgba(14, 165, 233, 0.2);
+}
+
+.popular {
+  border: 2px solid #0ea5e9;
+  background-color: #e0f2fe;
+  box-shadow: 0 8px 16px rgba(14, 165, 233, 0.25);
+}
+
+footer {
+  text-align: center;
+  padding: 1.5em;
+  background-color: #0f172a;
+  color: #f1f5f9;
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .pricing-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .plan {
+    max-width: 90%;
+  }
+}
