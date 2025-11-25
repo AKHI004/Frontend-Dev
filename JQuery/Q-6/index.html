@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Subscription Panel</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <h1>Subscription Panel</h1>
+
+    <div id="topics">
+        <div class="topic">
+            <span class="name">Tech News</span>
+            <button class="subscribe">Subscribe</button>
+            <button class="unsubscribe">Unsubscribe</button>
+        </div>
+
+        <div class="topic">
+            <span class="name">Sports Alerts</span>
+            <button class="subscribe">Subscribe</button>
+            <button class="unsubscribe">Unsubscribe</button>
+        </div>
+    </div>
+
+    <br>
+
+    <input type="text" id="newTopicInput" placeholder="New Topic Name">
+    <button id="addTopicBtn">Add Topic</button>
+    <button id="removeBtn">Remove Selected Topic</button>
+
+    <div id="message"></div>
+
+</body>
+</html>

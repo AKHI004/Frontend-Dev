@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Members Directory</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <h1>Team Members Directory</h1>
+
+    <section id="directory">
+
+        <div class="department" data-dept="sales">
+            <h2 class="deptTitle">Sales Department</h2>
+
+            <div class="manager">
+                <h3 class="person managerName">Amit (Manager)</h3>
+                <p class="contact" style="display:none;">amit@sales.com</p>
+
+                <div class="employees">
+                    <div class="employee">
+                        <span class="person">Riya</span>
+                        <p class="contact" style="display:none;">riya@sales.com</p>
+                    </div>
+
+                    <div class="employee">
+                        <span class="person">Kunal</span>
+                        <p class="contact" style="display:none;">kunal@sales.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="department" data-dept="tech">
+            <h2 class="deptTitle">Tech Department</h2>
+
+            <div class="manager">
+                <h3 class="person managerName">Neha (Manager)</h3>
+                <p class="contact" style="display:none;">neha@tech.com</p>
+
+                <div class="employees">
+                    <div class="employee">
+                        <span class="person">Arjun</span>
+                        <p class="contact" style="display:none;">arjun@tech.com</p>
+                    </div>
+
+                    <div class="employee">
+                        <span class="person">Sara</span>
+                        <p class="contact" style="display:none;">sara@tech.com</p>
+                    </div>
+
+                    <div class="employee">
+                        <span class="person">Dev</span>
+                        <p class="contact" style="display:none;">dev@tech.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <br>
+    <button id="randomBtn">Highlight Random Employee's Siblings</button>
+    <button id="toggleTeam">Collapse/Expand Teams</button>
+
+</body>
+</html>
